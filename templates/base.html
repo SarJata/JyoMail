@@ -1,0 +1,27 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JyoMail</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-lg p-6">
+            <h2 class="text-xl font-bold mb-6">JyoMail</h2>
+            <nav class="space-y-2">
+                <a href="{% url 'compose' %}" class="block px-4 py-2 rounded hover:bg-gray-100 transition font-semibold">Compose</a>
+            </nav>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex-1 p-6">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+</body>
+</html>

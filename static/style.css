@@ -1,0 +1,8 @@
+body { font-family: Arial, sans-serif; background:#f7f9fb; margin:0; padding:20px; }
+header { background:#123; color:#fff; padding:12px 20px; border-radius:6px; }
+header h1 { margin:0; font-size:20px; }
+nav a { color:#fff; margin-right:10px; text-decoration:none; }
+main { margin-top:16px; }
+.mail-item { background:#fff; padding:12px; border-radius:6px; margin-bottom:10px; box-shadow:0 2px 6px rgba(0,0,0,.06); }
+pre { white-space:pre-wrap; }
+.who { margin-top:8px; color:#ddd; }

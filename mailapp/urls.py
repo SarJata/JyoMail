@@ -6,6 +6,7 @@ urlpatterns = [
     path("login/", views.login_view, name="login"),
     path("logout/", views.logout_view, name="logout"),
     path("", views.inbox_view, name="inbox"),
+    path("sent/", views.sent_view, name="sent"),
     path("email/<int:email_id>/", views.email_detail_view, name="email_detail"),
     path('compose/', views.compose_email_view, name='compose'),
 ]

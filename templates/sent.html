@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Sent{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-4">
+    <h2>Sent Messages</h2>
+    <span class="text-muted text-sm">{{ inbox|length }} messages</span>
+</div>
+
+{% if inbox %}
+<div class="card">
+    <div style="display: flex; flex-direction: column;">
+        {% for mail in inbox %}
+        <a href="{% url 'email_detail' mail.id %}"
+            style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border-color); color: inherit; transition: background-color 0.2s;">
+            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                <div style="font-weight: 600; color: var(--text-main);">{{ mail.subject }}</div>
+                <div class="text-sm text-muted">To: {{ mail.to }}</div>
+            </div>
+            <div class="text-sm text-muted" style="white-space: nowrap;">
+                {{ mail.timestamp|date:"M d, H:i" }}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="card" style="padding: 3rem; text-align: center;">
+    <div class="text-muted" style="margin-bottom: 1rem;">No sent emails found</div>
+    <a href="{% url 'compose' %}" class="btn btn-primary">Compose your first email</a>
+</div>
+{% endif %}
+{% endblock %}

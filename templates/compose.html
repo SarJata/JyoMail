@@ -1,50 +1,46 @@
 {% extends "base.html" %}
-{% block title %}Compose{% endblock %}
+{% block title %}Compose Email{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-  <h2 class="text-2xl font-bold mb-6">Compose Email (from {{ user }})</h2>
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+  <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color);">
+    <h2 style="margin-bottom: 0;">New Message</h2>
+  </div>
 
-  <!-- Messages -->
-  {% if messages %}
-    <ul class="mb-4">
-      {% for message in messages %}
-        <li class="p-3 rounded {{ message.tags }} bg-blue-100 text-blue-700">{{ message }}</li>
+  <div style="padding: 2rem;">
+    {% if success %}
+    <div
+      style="background: #f0fdf4; color: #166534; padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+      {{ success }}
+    </div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      {% if form.errors %}
+      <div
+        style="background: #fef2f2; color: var(--danger-color); padding: 0.75rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; font-size: 0.875rem;">
+        Please correct the errors below.
+      </div>
+      {% endif %}
+
+      {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% for error in field.errors %}
+        <div style="color: var(--danger-color); font-size: 0.875rem; margin-top: 0.25rem;">{{ error }}</div>
+        {% endfor %}
+      </div>
       {% endfor %}
-    </ul>
-  {% endif %}
 
-  <form method="POST" class="space-y-4">
-    {% csrf_token %}
-
-    <div>
-      <label class="block text-gray-700 font-semibold">To (comma-separated emails)</label>
-      <input type="text" name="to" placeholder="bob@jyomail, carol@jyomail" required
-             class="w-full mt-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-    </div>
-
-    <div>
-      <label class="block text-gray-700 font-semibold">Subject</label>
-      <input type="text" name="subject" required
-             class="w-full mt-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-    </div>
-
-    <div>
-      <label class="block text-gray-700 font-semibold">Body</label>
-      <textarea name="body" rows="10" required
-                class="w-full mt-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-    </div>
-
-    <div class="flex items-center space-x-4">
-      <label class="inline-flex items-center">
-        <input type="checkbox" name="encrypt" class="form-checkbox text-blue-500">
-        <span class="ml-2 text-gray-700">Encrypt with PGP</span>
-      </label>
-
-      <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
-        Send
-      </button>
-    </div>
-  </form>
+      <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+        <a href="{% url 'inbox' %}" class="btn"
+          style="background: white; border: 1px solid var(--border-color);">Cancel</a>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

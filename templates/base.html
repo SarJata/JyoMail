@@ -1,27 +1,66 @@
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JyoMail</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+    <title>{% block title %}JyoMail{% endblock %}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link href="{% static 'style.css' %}" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
 
-    <div class="flex min-h-screen">
+<body>
+
+    {% if user.is_authenticated %}
+    <div class="app-container">
         <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg p-6">
-            <h2 class="text-xl font-bold mb-6">JyoMail</h2>
-            <nav class="space-y-2">
-                <a href="{% url 'compose' %}" class="block px-4 py-2 rounded hover:bg-gray-100 transition font-semibold">Compose</a>
+        <aside class="sidebar">
+            <div class="brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="16" x="2" y="4" rx="2" />
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+                JyoMail
+            </div>
+
+            <a href="{% url 'compose' %}" class="btn-compose">Compose</a>
+
+            <nav class="nav-links">
+                <a href="{% url 'inbox' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'inbox' %}active{% endif %}">
+                    Inbox
+                </a>
+                <a href="{% url 'sent' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'sent' %}active{% endif %}">
+                    Sent
+                </a>
             </nav>
-        </div>
 
-        <!-- Main content -->
-        <div class="flex-1 p-6">
+            <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                <div class="text-sm text-muted" style="margin-bottom: 0.5rem;">{{ user.username }}</div>
+                <a href="{% url 'logout' %}" class="text-sm text-danger" style="color: var(--danger-color);">Log Out</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
             {% block content %}{% endblock %}
-        </div>
+        </main>
     </div>
+    {% else %}
+    <!-- Layout for non-authenticated pages (Login/Signup) -->
+    {% block auth_content %}{% endblock %}
+    {% endif %}
 
+    <script src="{% static 'script.js' %}"></script>
 </body>
+
 </html>

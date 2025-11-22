@@ -1,5 +1,15 @@
 import os
+import sys
+import types
 from pathlib import Path
+
+# Monkeypatch imghdr for PGPy compatibility with Python 3.13
+try:
+    import imghdr
+except ImportError:
+    imghdr = types.ModuleType("imghdr")
+    imghdr.what = lambda filename, h=None: None
+    sys.modules["imghdr"] = imghdr
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
